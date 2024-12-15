@@ -15,27 +15,13 @@ USER gauss
 WORKDIR /opt/gauss
 
 ARG TARGETARCH
-ARG amd_download=x86_openEuler/openGauss-3.1.1-openEuler-64bit-all
-ARG arm_download=arm/openGauss-3.1.1-openEuler-64bit-all
+ARG amd_download=5.0.3/x86_openEuler_2203/openGauss-5.0.3-openEuler-64bit.tar.bz2
+ARG arm_download=5.0.3/arm_2203/openGauss-5.0.3-openEuler-64bit.tar.bz2
 
 RUN if [ "$TARGETARCH" = "amd64" ]; \
     then download=$amd_download; \
     else download=$arm_download; \
     fi && \
-    wget -q https://opengauss.obs.cn-south-1.myhuaweicloud.com/3.1.1/$download.tar.gz && \
-    tar -xf openGauss-3.1.1-openEuler-64bit-all.tar.gz -C /opt/gauss && \
-    rm -rf openGauss-3.1.1-openEuler-64bit-all.tar.gz && \
-    mkdir /opt/gauss/cm && \
-    mkdir /opt/gauss/om && \
-    mkdir /opt/gauss/gauss && \
-    tar -xf openGauss-3.1.1-openEuler-64bit-cm.tar.gz -C /opt/gauss/cm && \
-    tar -xf openGauss-3.1.1-openEuler-64bit-om.tar.gz -C /opt/gauss/om && \
-    tar -xf openGauss-3.1.1-openEuler-64bit.tar.bz2 -C /opt/gauss/gauss && \
-    rm -rf openGauss-3.1.1-openEuler-64bit-cm.tar.gz && \
-    rm -rf openGauss-3.1.1-openEuler-64bit-om.tar.gz && \
-    rm -rf openGauss-3.1.1-openEuler-64bit.tar.bz2 && \
-    rm -rf openGauss-3.1.1-openEuler-64bit-cm.sha256 && \
-    rm -rf openGauss-3.1.1-openEuler-64bit-om.sha256 && \
-    rm -rf openGauss-3.1.1-openEuler-64bit.sha256
-
-COPY hack/install.sh /opt/gauss/gauss/simpleInstall/install.sh
+    wget -q https://opengauss.obs.cn-south-1.myhuaweicloud.com/$download && \
+    tar -xf openGauss-5.0.3-openEuler* -C /opt/gauss && \
+    rm -rf openGauss-5.0.3-openEuler*
