@@ -7,7 +7,8 @@ RUN dnf install -yq util-linux && \
 
 RUN groupadd gauss -g 777 && \
     useradd -r -g gauss gauss -u 777 -m -d /opt/gauss && \
-    touch /opt/gauss/.bashrc
+    touch /opt/gauss/.bashrc && \
+    localedef --no-archive -i en_US -f UTF-8 en_US.UTF-8
 
 RUN ln -s /usr/lib64/libreadline.so.8 /usr/lib64/libreadline.so.7;
 
@@ -24,6 +25,5 @@ RUN if [ "$TARGETARCH" = "amd64" ]; \
     else download=$arm_download; \
     fi && \
     wget -q https://opengauss.obs.cn-south-1.myhuaweicloud.com/$download && \
-    localedef --no-archive -i en_US -f UTF-8 en_US.UTF-8 && \
     tar -xf openGauss-5.0.3-openEuler* -C /opt/gauss && \
     rm -rf openGauss-5.0.3-openEuler*
