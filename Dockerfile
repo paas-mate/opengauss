@@ -2,6 +2,7 @@ FROM shoothzj/base:openeuler
 
 RUN dnf install -yq util-linux && \
     dnf install -y libaio && \
+    dnf install -y glibc-locale-source && \
     dnf clean all
 
 RUN groupadd gauss -g 777 && \
@@ -23,5 +24,6 @@ RUN if [ "$TARGETARCH" = "amd64" ]; \
     else download=$arm_download; \
     fi && \
     wget -q https://opengauss.obs.cn-south-1.myhuaweicloud.com/$download && \
+    localedef --no-archive -i en_US -f UTF-8 en_US.UTF-8 && \
     tar -xf openGauss-5.0.3-openEuler* -C /opt/gauss && \
     rm -rf openGauss-5.0.3-openEuler*
