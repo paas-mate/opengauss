@@ -3,6 +3,8 @@ FROM shoothzj/base:openeuler
 RUN dnf install -yq util-linux && \
     dnf install -y libaio && \
     dnf install -y glibc-locale-source && \
+    dnf install -y sudo && \
+    dnf install -y procps && \
     dnf clean all
 
 RUN groupadd gauss -g 777 && \
@@ -11,6 +13,9 @@ RUN groupadd gauss -g 777 && \
     localedef --no-archive -i en_US -f UTF-8 en_US.UTF-8
 
 RUN ln -s /usr/lib64/libreadline.so.8 /usr/lib64/libreadline.so.7;
+
+RUN sudo echo "kernel.sem = 250 256000 32 1024" >> /etc/sysctl.d/99-custom-sysctl.conf && \
+    sudo sysctl -p
 
 USER gauss
 
